@@ -18,4 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('api/v1/address', \App\Http\Controllers\api\v1\Address::class);
+Route::post('v1/login', '\App\Http\Controllers\api\v1\User@login');
+Route::post('v1/user', '\App\Http\Controllers\api\v1\User@store');
+
+Route::group(['middleware' => 'auth:api'], function (){
+    Route::resource('v1/address', \App\Http\Controllers\api\v1\Address::class);
+    Route::post('v1/logout', '\App\Http\Controllers\api\v1\User@logout');
+});
